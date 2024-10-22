@@ -8,7 +8,6 @@ The types of the C# language are divided into two main categories: ***reference 
 type
     : value_type
     | reference_type
-    | nullable_type_parameter
     | type_parameter
     | pointer_type     // unsafe code support
     ;
@@ -538,7 +537,11 @@ type_arguments
     ;   
 
 type_argument
-    : type
+    : type nullable_argument_attribute?
+    ;
+
+nullable_argument_attribute
+    : '?'
     ;
 ```
 
@@ -611,19 +614,7 @@ A type parameter is an identifier designating a value type or reference type tha
 type_parameter
     : identifier
     ;
-
-nullable_type_parameter
-    : non_nullable_non_value_type_parameter '?'
-    ;
-
-non_nullable_non_value_type_parameter
-    : type_parameter
-    ;
 ```
-
-The *type_parameter* in *nullable_type_parameter* shall be a type parameter that is constrained (§15.2.5) to be a non-nullable reference or non-nullable value type.
-
-In *nullable_type_parameter*, the annotation `?` indicates the intent that nullable type corresponding to the type arguments of this type are nullable. The absence of the annotation `?` indicates the intent that type arguments of this type are non-nullable.
 
 Since a type parameter can be instantiated with many different type arguments, type parameters have slightly different operations and restrictions than other types.
 
@@ -775,6 +766,9 @@ When the nullable context is ***disabled***:
 - No warning shall be generated when a variable of an unannotated reference type is initialized with, or assigned a value of, `null`.
 - No warning shall be generated when a variable of a reference type that possibly has the null value.
 - For any reference type `T`, the annotation `?` in `T?` generates a message and the type `T?` is the same as `T`.
+- For any type parameter constraint `where T : C?`, the annotation `?` in `C?` generates a message and the type `C?` is the same as `C`.
+- For any type parameter constraint `where T : U?`, the annotation `?` in `U?` generates a message and the type `U?` is the same as `U`.
+- The generic constraint `class?` generates a warning message. The type parameter must be a reference type.
   > *Note*: This message is characterized as “informational” rather than “warning,” so as not to confuse it with the state of the nullable warning setting, which is unrelated. *end note*
 - The null-forgiving operator `!` ([§12.8.9](expressions.md#1289-null-forgiving-expressions)) has no effect.
 
@@ -852,6 +846,7 @@ When the nullable context is ***enabled***:
 - For any reference type `T`, the annotation `?` in `T?` makes `T?` a nullable type, whereas the unannotated `T` is non-nullable.
 - The compiler can use static flow analysis to determine the null state of any reference variable. When nullable warnings are enabled, a reference variable’s null state ([§8.9.5](types.md#895-nullabilities-and-null-states)) is either *not null*, *maybe null*, or *maybe default* and
 - The null-forgiving operator `!` ([§12.8.9](expressions.md#1289-null-forgiving-expressions)) sets the null state of its operand to *not null*.
+- The compiler can issue a warning if the nullability of a type parameter doesn't match the nullability of its corresponding type argument.
 
 ### 8.9.5 Nullabilities and null states
 
@@ -874,6 +869,8 @@ The ***default null state*** of an expression is determined by its type, and the
   - Not null when its declaration is in text where the annotations flag is disabled.
 - The default null state of a non-nullable reference type is not null.
 
+> *Note:* The *maybe default* state is used with unconstrained type parameters when the type is a non-nullable type, such as `string` and the expression `default(T)` is the null value. Because null is not in the domain for the non-nullable type, the state is maybe default. *end note*
+
 A diagnostic can be produced when a variable ([§9.2.1](variables.md#921-general)) of a non-nullable reference type is initialized or assigned to an expression that is maybe null when that variable is declared in text where the annotation flag is enabled.
 
 The compiler can update the null state of a variable as part of its analysis.
@@ -881,17 +878,3 @@ The compiler can update the null state of a variable as part of its analysis.
 > *Note*: The compiler can treat a property ([§15.7](classes.md#157-properties)) as either a variable with state, or as independent get and set accessors ([§15.7.3](classes.md#1573-accessors)). In other words, a compiler can choose if writing to a property changes the null state of reading the property.
 
 ***End of conditionally normative text***
-
-## §Generics-and-nullable-placeholder More nullable context text
-
-> This is a placeholder for text that will be added in the clause on "nullable context" described in `#1124`. I'll rebase and edit once that's done.
-
-- Add the note for *maybe default*:
-
-> *Note:* The *maybe default* state is used with unconstrained type parameters when the type is a non-nullable type, such as `string` and the expression `default(T)` is the null value. Because null is not in the domain for the non-nullable type, the state is maybe default. *end note*
-
-Add to rules on types and nullable context flags:
-
-When the *annotations* flag is disabled:
-
-- The `class?` constraint generates a warning.

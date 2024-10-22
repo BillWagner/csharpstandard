@@ -437,19 +437,19 @@ Each *type_parameter_constraints_clause* consists of the token `where`, followed
 
 The list of constraints given in a `where` clause can include any of the following components, in this order: a single primary constraint, one or more secondary constraints, and the constructor constraint, `new()`.
 
-A primary constraint can be a class type, the ***reference type constraint*** `class`, the ***nullable reference type constraint*** `class?`, the ***not null*** constraint `notnull`, the ***value type constraint*** `struct` or the ***unmanaged type constraint*** `unmanaged`.
+A primary constraint can be a class type, the ***reference type constraint*** `class`, the ***not null constraint*** `notnull`, the ***value type constraint*** `struct` or the ***unmanaged type constraint*** `unmanaged`.
 
 A secondary constraint can be a *type_parameter* or *interface_type*, optionally followed by a *nullable_type_attribute*.
 
-The reference type constraint specifies that a type argument used for the type parameter shall be a non-nullable reference type. All non-nullable class types, non-nullable interface types, non-nullable delegate types, non-nullable array types, and type parameters known to be a non-nullable reference type (as defined below) satisfy this constraint.
+The reference type constraint specifies that a type argument used for the type parameter shall be a reference type. All class types, interface types, delegate types, array types, and type parameters known to be a reference type (as defined below) satisfy this constraint.
 
-The nullable reference type constraint specifies that a type argument shall be either a non-nullable reference type or a nullable reference type. All class types, interface types, delegate types, array types, and type parameters known to be a reference type (as defined below) satisfy this constraint.
+The class type, reference type constraint, and secondary constraints can include the nullable type attribute. The nullability of the type argument need not match the nullability of the type parameter. The compiler may issue a warning if the nullability of the type parameter doesn't match the nullability of the type argument.
+
+The ***not null*** constraint specifies that a type argument used for the type parameter should be a non-nullable value type or a non-nullable reference type. A type argument that isn't a non-nullable value type or a non-nullable reference type is allowed, but the compiler may produce a diagnostic warning.
 
 The value type constraint specifies that a type argument used for the type parameter shall be a non-nullable value type. All non-nullable struct types, enum types, and type parameters having the value type constraint satisfy this constraint. Note that although classified as a value type, a nullable value type ([§8.3.12](types.md#8312-nullable-value-types)) does not satisfy the value type constraint. A type parameter having the value type constraint shall not also have the *constructor_constraint*, although it may be used as a type argument for another type parameter with a *constructor_constraint*.
 
 > *Note*: The `System.Nullable<T>` type specifies the non-nullable value type constraint for `T`. Thus, recursively constructed types of the forms `T??` and `Nullable<Nullable<T>>` are prohibited. *end note*
-
-The ***not null*** constraint specifies that a type argument used for the type parameter shall be a non-nullable value type or a non-nullable reference type. All non-nullable class types, interface types, delegate types, array types, struct types, enum types, and type parameters known to be a non-nullable value type or non-nullable reference type satisfy this constraint.
 
 Because `unmanaged` is not a keyword, in *primary_constraint* the unmanaged constraint is always syntactically ambiguous with *class_type*. For compatibility reasons, if a name lookup ([§12.8.4](expressions.md#1284-simple-names)) of the name `unmanaged` succeeds it is treated as a `class_type`. Otherwise it is treated as the unmanaged constraint.
 
