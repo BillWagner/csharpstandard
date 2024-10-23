@@ -76,8 +76,13 @@ delegate_type
     ;
 
 nullable_reference_type
-    : non_nullable_reference_type '?'
+    : non_nullable_reference_type nullable_type_attribute
     ;
+
+nullable_type_attribute
+    : '?'
+    ;
+
 ```
 
 *pointer_type* is available only in unsafe code ([§23.3](unsafe-code.md#233-pointer-types)). *nullable_reference_type* is discussed further in [§8.9](types.md#89-reference-types-and-nullability).
@@ -206,7 +211,7 @@ enum_type
     ;
 
 nullable_value_type
-    : non_nullable_value_type '?'
+    : non_nullable_value_type nullable_type_attribute
     ;
 ```
 
@@ -537,11 +542,7 @@ type_arguments
     ;   
 
 type_argument
-    : type nullable_argument_attribute?
-    ;
-
-nullable_argument_attribute
-    : '?'
+    : type nullable_type_attribute?
     ;
 ```
 

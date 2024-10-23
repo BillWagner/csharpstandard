@@ -401,10 +401,6 @@ type_parameter_constraints_clause
     : 'where' type_parameter ':' type_parameter_constraints
     ;
 
-nullable_type_attribute
-    : '?'
-    ;
-
 type_parameter_constraints
     : primary_constraint (',' secondary_constraints)? (',' constructor_constraint)?
     | secondary_constraints (',' constructor_constraint)?
