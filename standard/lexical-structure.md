@@ -609,6 +609,7 @@ A ***contextual keyword*** is an identifier-like sequence of characters that has
 contextual_keyword
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
     : 'add'       | 'alias'      | 'ascending' | 'async'     | 'await'
     | 'by'        | 'descending' | 'dynamic'   | 'equals'    | 'from'
     | 'get'       | 'global'     | 'group'     | 'init'      | 'into'
@@ -633,6 +634,15 @@ contextual_keyword
     | 'on'      | 'or'         | 'orderby'    | 'partial'   | 'remove'
     | 'select'  | 'set'        | 'unmanaged'  | 'value'     | 'var'
     | 'when'    | 'where'      | 'yield'
+>>>>>>> theirs
+=======
+    : 'add'       | 'alias'      | 'ascending' | 'async'     | 'await'
+    | 'by'        | 'descending' | 'dynamic'   | 'equals'    | 'from'
+    | 'get'       | 'global'     | 'group'     | 'into'      | 'join'
+    | 'let'       | 'nameof'     | 'notnull'   | 'on'        | 'orderby'
+    | 'partial'   | 'record'     | 'remove'    | 'select'    | 'set'
+    | 'unmanaged' | 'value'      | 'var'       | 'when'      | 'where'
+    | 'yield'
 >>>>>>> theirs
     ;
 ```
