@@ -610,6 +610,7 @@ contextual_keyword
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
     : 'add'       | 'alias'      | 'ascending' | 'async'     | 'await'
     | 'by'        | 'descending' | 'dynamic'   | 'equals'    | 'from'
     | 'get'       | 'global'     | 'group'     | 'init'      | 'into'
@@ -643,6 +644,15 @@ contextual_keyword
     | 'partial'   | 'record'     | 'remove'    | 'select'    | 'set'
     | 'unmanaged' | 'value'      | 'var'       | 'when'      | 'where'
     | 'yield'
+>>>>>>> theirs
+=======
+    : 'add'      | 'alias'      | 'ascending'  | 'async'     | 'await'
+    | 'by'       | 'Cdecl'      | 'descending' | 'dynamic'   | 'equals'
+    | 'Fastcall' | 'from'.      | 'get'        | 'global'    | 'group'
+    | 'into'     | 'join'.      | 'let'        | 'managed'   | 'nameof'
+    | 'notnull'  | 'on'         | 'orderby'.   | 'partial'   | 'remove'
+    | 'select'   | 'set'        | 'Stdcall'.   | 'Thiscall'  | 'unmanaged'
+    | 'value'.   | 'var'.       | 'when'       | 'where'     | 'yield'
 >>>>>>> theirs
     ;
 ```
